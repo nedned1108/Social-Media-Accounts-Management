@@ -60,9 +60,18 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- add to apply OpenApi documentation with HTTP request -->
+		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
+		<dependency>
+		    <groupId>org.springdoc</groupId>
+		    <artifactId>springdoc-openapi-ui</artifactId>
+		    <version>1.6.5</version>
 		</dependency>
 	</dependencies>
 
