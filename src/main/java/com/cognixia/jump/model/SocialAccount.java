@@ -64,11 +64,11 @@ public class SocialAccount implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getAccountName() {
 		return accountName;
 	}
 
-	public void setName(String accountName) {
+	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
 
