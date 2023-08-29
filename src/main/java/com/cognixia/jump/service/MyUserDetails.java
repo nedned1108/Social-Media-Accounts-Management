@@ -1,5 +1,6 @@
 package com.cognixia.jump.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cognixia.jump.model.User;
 
-import io.jsonwebtoken.lang.Arrays;
 
 public class MyUserDetails implements UserDetails{
 	
