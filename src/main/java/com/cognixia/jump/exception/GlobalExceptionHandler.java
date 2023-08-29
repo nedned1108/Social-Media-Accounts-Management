@@ -23,4 +23,12 @@ public class GlobalExceptionHandler {
 		
 	}
 	
+	@ExceptionHandler(SameUserAndPlatformException.class)
+	public ResponseEntity<?> sameUser(SameUserAndPlatformException ex, WebRequest request) {
+		ErrorDetails errorDetails = 
+				new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		return ResponseEntity.status(400).body(errorDetails);
+	}
+	
 }
