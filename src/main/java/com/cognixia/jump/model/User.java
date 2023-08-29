@@ -51,13 +51,6 @@ public class User implements Serializable {
 	@Column
 	private String bio;
 
-	@Column(nullable = false)
-	@NotBlank
-	private SimpleDateFormat createdAt;
-
-	@Column(columnDefinition = "boolean default true")
-	private boolean enabled;
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<SocialAccount> accounts;
 
@@ -66,18 +59,16 @@ public class User implements Serializable {
 	}
 
 	public User(Integer id, @NotBlank String username, @NotBlank String password, @NotBlank String companyName,
-			Role role, @NotBlank SimpleDateFormat createdAt,
-			String bio, boolean enabled, List<SocialAccount> accounts) {
+			Role role,
+			String bio, List<SocialAccount> accounts) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.companyName = companyName;
 		this.role = role;
-		this.createdAt = createdAt;
 		this.bio = bio;
 		this.accounts = accounts;
 		this.password = password;
-		this.enabled = enabled;
 	}
 
 	public Integer getId() {
@@ -112,14 +103,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public String getName() {
 		return companyName;
 	}
@@ -136,14 +119,6 @@ public class User implements Serializable {
 		this.bio = bio;
 	}
 
-	public SimpleDateFormat getCreated() {
-		return createdAt;
-	}
-
-	public void setCreated(SimpleDateFormat createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public List<SocialAccount> getAccounts() {
 		return accounts;
 	}
@@ -155,8 +130,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", company name=" + companyName
-				+ ", enabled="
-				+ enabled + ", role=" + role + ", bio=" + bio + "accounts=" + accounts + ", timestamp=" + createdAt
+				+ ", role=" + role + ", bio=" + bio + "accounts=" + accounts
 				+ "]";
 	}
 }

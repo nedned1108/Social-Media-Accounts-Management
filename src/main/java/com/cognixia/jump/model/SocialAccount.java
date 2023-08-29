@@ -20,7 +20,7 @@ public class SocialAccount implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum Platform {
-		PLATFORM_FACEBOOK, PLATFORM_INSTA
+		FACEBOOK, INSTAGRAM
 	}
 
 	@Id
@@ -36,11 +36,7 @@ public class SocialAccount implements Serializable {
 	private String accountName;
 
 	@Column
-	private String desc;
-
-	@Column(nullable = false)
-	@NotBlank
-	private SimpleDateFormat createdAt;
+	private String description;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -50,14 +46,13 @@ public class SocialAccount implements Serializable {
 
 	}
 
-	public SocialAccount(Integer id, @NotBlank String accountName, String desc,
-			Platform platformName, @NotBlank SimpleDateFormat createdAt, User user) {
+	public SocialAccount(Integer id, @NotBlank String accountName, String description,
+			Platform platformName, User user) {
 		super();
 		this.id = id;
 		this.accountName = accountName;
 		this.platformName = platformName;
-		this.createdAt = createdAt;
-		this.desc = desc;
+		this.description = description;
 		this.user = user;
 	}
 
@@ -85,20 +80,12 @@ public class SocialAccount implements Serializable {
 		this.platformName = platformName;
 	}
 
-	public SimpleDateFormat getCreated() {
-		return createdAt;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setCreated(SimpleDateFormat createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public User getUser() {
@@ -112,6 +99,6 @@ public class SocialAccount implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", account name=" + accountName + ", platform=" + platformName + ", description="
-				+ desc + ", user=" + user + ", timestamp=" + createdAt + "]";
+				+ description + ", user=" + user + "]";
 	}
 }
