@@ -103,11 +103,11 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public String getName() {
+	public String getCompanyName() {
 		return companyName;
 	}
 
-	public void setName(String companyName) {
+	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
 
@@ -123,8 +123,11 @@ public class User implements Serializable {
 		return accounts;
 	}
 
-	public void setEnrolled(List<SocialAccount> accounts) {
-		this.accounts = accounts;
+	public void setAccounts(List<SocialAccount> accounts) {
+		for (SocialAccount a : accounts) {
+			a.setId(null);
+			a.setUser(this);
+		}
 	}
 
 	@Override
