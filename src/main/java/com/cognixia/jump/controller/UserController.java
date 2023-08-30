@@ -1,5 +1,6 @@
 package com.cognixia.jump.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -40,15 +41,17 @@ public class UserController {
 	}
 
 	@PutMapping("/user")
-	public ResponseEntity<?> updateUser(@Valid @RequestBody User user) throws ResourceNotFoundException {
+	public ResponseEntity<?> updateUser(@Valid @RequestBody User user, @RequestBody Map<String, String> userBio,
+			@RequestBody Map<String, String> companyName)
+			throws ResourceNotFoundException {
+
+		String bio = userBio.get("bio");
+		String name = companyName.get("company_name");
 
 		if (repo.existsById(user.getId())) {
-
+			user.setBio(bio);
+			user.setName(name);
 			User updated = repo.save(user);
-
-			// check if the address matches the student and reply back with a proper
-			// response if you attempt
-			// to update the address and its id does not match what the student has
 
 			return ResponseEntity.status(200).body(updated);
 		}
