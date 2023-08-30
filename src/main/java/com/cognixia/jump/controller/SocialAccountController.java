@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.exception.SameUserAndPlatformException;
 import com.cognixia.jump.model.SocialAccount;
+
+import com.cognixia.jump.service.SocialAccountService;
+
 import com.cognixia.jump.repository.SocialAccountRepository;
 
 @RequestMapping("/api")
@@ -29,15 +32,18 @@ public class SocialAccountController {
 	@Autowired
 	SocialAccountRepository repo;
 
+	@Autowired
+	SocialAccountService service;
+
 	@GetMapping("/account")
 	public List<SocialAccount> getAccounts() {
-		return repo.findAll();
+		return service.getAccounts();
 	}
 
 	@GetMapping("/account/{id}")
 	public ResponseEntity<?> getAccountsById(@PathVariable int id) throws ResourceNotFoundException {
 
-		Optional<SocialAccount> found = repo.findById(id);
+		Optional<SocialAccount> found = service.getAccountById(id);
 
 		if (found.isEmpty()) {
 			throw new ResourceNotFoundException("SocialAccount");
@@ -51,20 +57,18 @@ public class SocialAccountController {
 	public ResponseEntity<?> createAccount(@Valid @RequestBody SocialAccount account)
 			throws SameUserAndPlatformException {
 
-		// remove id so that it can be auto incremented
-		account.setId(null);
-
 		Optional<SocialAccount> foundAccountName = repo.findByAccountName(account.getAccountName());
 
 		Optional<SocialAccount> foundPlatform = repo.findByPlatform(account.getPlatformName());
 
 		// make sure each account created has a unique account name or platform , if not
 		// checked, will end up with 409 error
+
 		if (!foundAccountName.isEmpty() && !foundPlatform.isEmpty()) {
 			throw new SameUserAndPlatformException();
 		}
 
-		SocialAccount created = repo.save(account);
+		SocialAccount created = service.createAccount(account);
 
 		return ResponseEntity.status(201).body(created);
 	}
@@ -78,39 +82,33 @@ public class SocialAccountController {
 
 		Optional<SocialAccount> foundPlatform = repo.findByPlatform(account.getPlatformName());
 
-		// make sure each account created has a unique account name or platform , if not
-		// checked, will end up with 409 error
 		if (foundAccountName.isEmpty() && foundPlatform.isEmpty()) {
 			throw new SameUserAndPlatformException();
 		}
 
-		boolean exists = repo.existsById(account.getId());
-		if (exists) {
-			SocialAccount updated = repo.save(account);
+		Optional<SocialAccount> updated = service.updateAccount(account);
 
-			return ResponseEntity.status(201).body(updated);
+		if (updated.isEmpty()) {
+			throw new ResourceNotFoundException("Account can't be found");
 		} else {
-
-			throw new ResourceNotFoundException("Account");
+			return ResponseEntity.status(200)
+					.body(updated.get());
 		}
 	}
 
 	@DeleteMapping("/account/{id}")
 	public ResponseEntity<?> deleteAccount(@PathVariable int id) throws ResourceNotFoundException {
 
-		boolean exists = repo.existsById(id);
-
-		if (exists) {
+		if (service.deleteAccount(id)) {
 
 			// will return the account we just deleted in the response
 			SocialAccount deleted = repo.findById(id).get();
 
-			repo.deleteById(id);
-
 			return ResponseEntity.status(200).body(deleted);
+		} else {
+			throw new ResourceNotFoundException("Account could not be found nor deleted");
 		}
 
-		throw new ResourceNotFoundException("Account");
 	}
 
 }
