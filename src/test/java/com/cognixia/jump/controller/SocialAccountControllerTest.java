@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.SocialAccount;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.SocialAccountRepository;
@@ -80,7 +82,7 @@ public class SocialAccountControllerTest {
 	};
 	
 	@Test
-	public void testGetAccount() throws Exception {
+	public void testGetAccountsById() throws Exception {
 		
 		String uri = STARTING_URI + "/account/{id}";
 
@@ -89,8 +91,6 @@ public class SocialAccountControllerTest {
 		SocialAccount account = new SocialAccount(1, "group2_facebook", "Facebook description", SocialAccount.Platform.FACEBOOK, newUser);
 		
 		when( repo.findById(id) ).thenReturn(Optional.of(account));
-		
-		ResponseEntity<?> response = controller.getAccountsById(id);
 		
 		mvc.perform( get(uri) )
 				.andDo( print() )
@@ -106,8 +106,42 @@ public class SocialAccountControllerTest {
 		verifyNoMoreInteractions(repo);
 	};
 	
+	@Test
+	public void testGetAccountsByIdNotFound() throws Exception {
+		
+		String uri = STARTING_URI + "/account/{id}";
+
+		int id = 1;
+		
+		when( repo.findById(id) ).thenThrow( new ResourceNotFoundException("Account was not found"));
+		
+		mvc.perform( get(uri) )
+				.andDo( print() )
+				.andExpect( status().isNotFound() );
+		
+		verify( repo, times(1) ).findById(id);
+		verifyNoMoreInteractions(repo);
+	};
 	
+	@Test
+	public void testCreateAccount() throws Exception {
+		
+		String uri = STARTING_URI + "/account";
+		
+		User newUser =  new User(1, "group2", "password", "Cognixia", User.Role.ROLE_USER,"bio example", null);
+		SocialAccount account = new SocialAccount(1, "group2_facebook", "Facebook description", SocialAccount.Platform.FACEBOOK, newUser);
 	
+		when( repo.save( Mockito.any(SocialAccount.class) ) ).thenReturn(account);
+		
+		mvc.perform( post(uri)
+					.contentType( MediaType.APPLICATION_JSON_VALUE) )
+			.andDo( print() )
+			.andExpect( status().isCreated() )
+			.andExpect( content().contentType( MediaType.APPLICATION_JSON_VALUE));
+		
+		verify( repo, times(1) ).save(Mockito.any(SocialAccount.class));
+		verifyNoMoreInteractions(repo);
+	}
 	
 	
 	
