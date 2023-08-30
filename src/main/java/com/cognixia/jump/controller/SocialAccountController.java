@@ -41,7 +41,7 @@ public class SocialAccountController {
 		Optional<SocialAccount> found = repo.findById(id);
 		
 		if(found.isEmpty()) {
-			throw new ResourceNotFoundException("SocialAccount");
+			throw new ResourceNotFoundException("Account");
 		}
 		
 		return ResponseEntity.status(200).body(found.get());
