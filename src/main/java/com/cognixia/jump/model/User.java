@@ -59,8 +59,7 @@ public class User implements Serializable {
 	}
 
 	public User(Integer id, @NotBlank String username, @NotBlank String password, @NotBlank String companyName,
-			Role role,
-			String bio, List<SocialAccount> accounts) {
+			Role role, String bio, List<SocialAccount> accounts) {
 		super();
 		this.id = id;
 		this.username = username;
