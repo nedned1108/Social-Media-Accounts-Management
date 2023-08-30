@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,8 +39,8 @@ public class SocialAccount implements Serializable {
 	@Column
 	private String description;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
 	private User user;
 
 	public SocialAccount() {
@@ -72,11 +73,11 @@ public class SocialAccount implements Serializable {
 		this.accountName = accountName;
 	}
 
-	public Platform getPlatform() {
+	public Platform getPlatformName() {
 		return platformName;
 	}
 
-	public void setPlatform(Platform platformName) {
+	public void setPlatformName(Platform platformName) {
 		this.platformName = platformName;
 	}
 
@@ -88,9 +89,9 @@ public class SocialAccount implements Serializable {
 		this.description = description;
 	}
 
-	public User getUser() {
-		return user;
-	}
+	// public User getUser() {
+	// return user;
+	// }
 
 	public void setUser(User user) {
 		this.user = user;
