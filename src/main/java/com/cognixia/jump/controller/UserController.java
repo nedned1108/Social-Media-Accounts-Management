@@ -40,23 +40,4 @@ public class UserController {
 		return ResponseEntity.status(201).body(created);
 	}
 
-	@PutMapping("/user")
-	public ResponseEntity<?> updateUser(@Valid @RequestBody User user, @RequestBody Map<String, String> userBio,
-			@RequestBody Map<String, String> companyName)
-			throws ResourceNotFoundException {
-
-		String bio = userBio.get("bio");
-		String name = companyName.get("company_name");
-
-		if (repo.existsById(user.getId())) {
-			user.setBio(bio);
-			user.setName(name);
-			User updated = repo.save(user);
-
-			return ResponseEntity.status(200).body(updated);
-		}
-
-		throw new ResourceNotFoundException("User Not Found");
-	}
-
 }
