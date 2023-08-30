@@ -19,45 +19,46 @@ import com.cognixia.jump.filter.JwtRequestFilter;
 
 @Configuration
 public class SecurityConfiguration {
-	
+
 	@Autowired
 	UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
-	
+
 	// Authentication - who are you? (does this user exist in our database?)
 	@Bean
 	protected UserDetailsService userDetailsService() {
-		
+
 		return userDetailsService;
 	}
-	
+
 	// Authorization - what do you want? (can this user access this endpoint?)
 	@Bean
-	protected SecurityFilterChain filterChain( HttpSecurity http ) throws Exception {
-		
+	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
 		http.csrf().disable()
-			.authorizeRequests()
-			.antMatchers("/authenticate").permitAll()
-			.antMatchers("/api/user/**").authenticated()
-			.antMatchers(HttpMethod.POST, "/api/user").permitAll()
-			.anyRequest().authenticated()
-			.and()
-			.sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS );
-		
-		
+				.authorizeRequests()
+				.antMatchers("/authenticate").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
+				.antMatchers("/api/user/**").authenticated()
+
+				.anyRequest().authenticated()
+				.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-		
+
 		return http.build();
 	};
-	
+
 	@Bean
 	protected PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	// load the encoder & user details service that are needed for spring security to do authentication
+
+	// load the encoder & user details service that are needed for spring security
+	// to do authentication
 	@Bean
 	protected DaoAuthenticationProvider authenticationProvider() {
 
@@ -68,8 +69,9 @@ public class SecurityConfiguration {
 
 		return authProvider;
 	}
-	
-	// can autowire and access the authentication manager (manages authentication (login) of our project)
+
+	// can autowire and access the authentication manager (manages authentication
+	// (login) of our project)
 	@Bean
 	protected AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
