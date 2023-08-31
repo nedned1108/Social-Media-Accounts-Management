@@ -19,6 +19,7 @@ public class SocialAccountService {
     @Autowired
     SocialAccountRepository repo;
 
+    
     public List<SocialAccount> getAccounts() {
         return repo.findAll();
     }

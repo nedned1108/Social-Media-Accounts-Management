@@ -68,7 +68,7 @@ public class SocialAccountController {
 		return ResponseEntity.status(201).body(created);
 	}
 
-	@Operation( summary = "Update an account"",
+	@Operation( summary = "Update an account",
 			 description = "Update an account"
 			 )
 	// create account throws sameUser exception
