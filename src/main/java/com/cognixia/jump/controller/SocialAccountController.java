@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/api")
 @RestController
 public class SocialAccountController {
-	
+
 	@Autowired
 	SocialAccountService service;
 
@@ -55,7 +55,7 @@ public class SocialAccountController {
 	public ResponseEntity<?> getAccountsById(@PathVariable int id) throws ResourceNotFoundException {
 
 		SocialAccount found = service.getAccountById(id);
-		
+
 		return ResponseEntity.status(200).body(found);
 	}
 
@@ -71,7 +71,7 @@ public class SocialAccountController {
 	@PostMapping("/account")
 	public ResponseEntity<SocialAccount> createAccount(@Valid @RequestBody SocialAccount account)
 			throws SameUserAndPlatformException {
-		
+
 		SocialAccount created = service.createAccount(account);
 
 		return ResponseEntity.status(201).body(created);
