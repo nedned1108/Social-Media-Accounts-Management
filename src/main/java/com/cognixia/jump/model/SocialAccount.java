@@ -89,10 +89,6 @@ public class SocialAccount implements Serializable {
 		this.description = description;
 	}
 
-	// public User getUser() {
-	// return user;
-	// }
-
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -102,4 +98,5 @@ public class SocialAccount implements Serializable {
 		return "User [id=" + id + ", account name=" + accountName + ", platform=" + platformName + ", description="
 				+ description + ", user=" + user + "]";
 	}
+
 }
