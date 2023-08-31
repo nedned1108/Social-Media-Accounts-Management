@@ -42,7 +42,7 @@ public class SocialAccountService {
 		
 		// make sure each account created has a unique account name or platform , if not
 		// checked, will end up with 409 error
-		if (!foundAccountName.isEmpty() && !foundPlatform.isEmpty()) {
+		if (!foundAccountName.isEmpty() && foundPlatform.isEmpty()) {
 			throw new SameUserAndPlatformException();
 		} else {
 			account.setId(null);

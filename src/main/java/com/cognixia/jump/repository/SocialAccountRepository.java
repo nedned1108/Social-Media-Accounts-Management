@@ -16,7 +16,8 @@ public interface SocialAccountRepository extends JpaRepository<SocialAccount, In
 	@Query("SELECT s FROM SocialAccount s WHERE s.accountName = ?1")
 	public List<SocialAccount> findByAccountName(String accountName);
 	
-	@Query("SELECT p FROM SocialAccount p WHERE p.platformName = ?1")
+			
+	@Query("SELECT s.accountName , s.platformName FROM SocialAccount s WHERE s.accountName = ?1 AND s.platformName = ?2")
 	public List<SocialAccount> findByPlatform(Platform platformName);
 	
 }
