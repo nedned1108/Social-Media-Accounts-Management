@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.exception.SameUserAndPlatformException;
 import com.cognixia.jump.model.SocialAccount;
-
 import com.cognixia.jump.service.SocialAccountService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,8 +50,7 @@ public class SocialAccountController {
 	@ApiResponses(
 			@ApiResponse(responseCode="200",
 					description="Account has been found")
-			)
-	
+	)
 	@GetMapping("/account/{id}")
 	public ResponseEntity<?> getAccountsById(@PathVariable int id) throws ResourceNotFoundException {
 
@@ -96,12 +94,7 @@ public class SocialAccountController {
 
 		Optional<SocialAccount> updated = Optional.ofNullable(service.updateAccount(account));
 
-		if (updated.isEmpty()) {
-			throw new ResourceNotFoundException("Account can't be found");
-		} else {
-			return ResponseEntity.status(200)
-					.body(updated.get());
-		}
+		return ResponseEntity.status(200).body(updated.get());
 	}
 
 	@Operation( summary = "Delete an account by Id",
