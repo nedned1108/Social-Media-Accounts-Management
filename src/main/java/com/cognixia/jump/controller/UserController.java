@@ -18,8 +18,8 @@ import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 
-@RequestMapping("/api")
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
 	@Autowired
