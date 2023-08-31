@@ -23,6 +23,8 @@ import com.cognixia.jump.model.SocialAccount;
 
 import com.cognixia.jump.service.SocialAccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import com.cognixia.jump.repository.SocialAccountRepository;
 
 @RequestMapping("/api")
@@ -32,11 +34,18 @@ public class SocialAccountController {
 	@Autowired
 	SocialAccountService service;
 
+	@Operation( summary = "Get all the accounts in the social_account table",
+			 description = "Get all accounts"
+			 )
+
 	@GetMapping("/account")
 	public List<SocialAccount> getAccounts() {
 		return service.getAccounts();
 	}
 
+	@Operation( summary = "Get an account by Id",
+			 description = "Get an account by its Id"
+			 )
 	@GetMapping("/account/{id}")
 	public ResponseEntity<?> getAccountsById(@PathVariable int id) throws ResourceNotFoundException {
 
@@ -44,6 +53,10 @@ public class SocialAccountController {
 		
 		return ResponseEntity.status(200).body(found);
 	}
+
+	@Operation( summary = "Create a new account",
+			 description = "Create a new account"
+			 )
 
 	// create account throws sameUser exception
 	@PostMapping("/account")
@@ -55,6 +68,9 @@ public class SocialAccountController {
 		return ResponseEntity.status(201).body(created);
 	}
 
+	@Operation( summary = "Update an account"",
+			 description = "Update an account"
+			 )
 	// create account throws sameUser exception
 	@PutMapping("/account")
 	public ResponseEntity<SocialAccount> updateAccount(@Valid @RequestBody SocialAccount account)
@@ -70,6 +86,9 @@ public class SocialAccountController {
 		}
 	}
 
+	@Operation( summary = "Delete an account by Id",
+			 description = "Deletes an account by its Id "	 
+			 )
 	@DeleteMapping("/account/{id}")
 	public ResponseEntity<?> deleteAccount(@PathVariable int id) throws ResourceNotFoundException {
 
