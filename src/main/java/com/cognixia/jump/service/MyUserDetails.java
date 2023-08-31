@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cognixia.jump.model.User;
 
-
 public class MyUserDetails implements UserDetails{
 	
 	private static final long serialVersionUID = 1L;
