@@ -40,9 +40,10 @@ public class SecurityConfiguration {
 		http.csrf().disable()
 				.authorizeRequests()
 				.antMatchers("/authenticate").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 				.antMatchers("/api/user/**").authenticated()
 				.antMatchers("/api/account/**").authenticated()
-				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
+
 				.anyRequest().authenticated()
 				.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
