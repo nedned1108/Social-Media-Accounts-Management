@@ -59,9 +59,6 @@ public class SocialAccountControllerTest {
 	private SocialAccountService service;
 	
 	@MockBean
-	private UserDetailsService userDetailsService;
-	
-	@MockBean
 	private MyUserDetailsService myUserDetailsService;
 	
 	@MockBean
