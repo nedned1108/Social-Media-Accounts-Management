@@ -17,29 +17,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @Service
 public class SocialAccountService {
 
-	@Autowired
-	SocialAccountRepository repo;
-
-	public List<SocialAccount> getAccounts() {
-		return repo.findAll();
-	}
-
-	public SocialAccount getAccountById(int id) throws ResourceNotFoundException {
-
-		Optional<SocialAccount> found = repo.findById(id);
-
-		if (found.isEmpty()) {
-			throw new ResourceNotFoundException("Account");
-		}
-
-		return found.get();
-	}
-
-	public SocialAccount createAccount(SocialAccount account) throws SameUserAndPlatformException {
-
-		List<SocialAccount> foundPlatform = repo.findByPlatform(account.getAccountName().toString(),
-				account.getPlatformName());
-
     @Autowired
     SocialAccountRepository repo;
 
@@ -68,9 +45,7 @@ public class SocialAccountService {
 					description="Account already exist")
 	)
     public SocialAccount createAccount(SocialAccount account) throws SameUserAndPlatformException {
-    	
-    	List<SocialAccount> foundAccountName = repo.findByAccountName(account.getAccountName());
-		List<SocialAccount> foundPlatform = repo.findByPlatform(account.getPlatformName());
+		List<SocialAccount> foundPlatform = repo.findByPlatform(account.getAccountName(), account.getPlatformName());
 
 		// make sure each account created has a unique account name or platform , if not
 		// checked, will end up with 409 error
@@ -93,8 +68,6 @@ public class SocialAccountService {
 	)
     public SocialAccount updateAccount(SocialAccount account) 
     		throws ResourceNotFoundException, SameUserAndPlatformException {
-    	
-		List<SocialAccount> foundAccountName = repo.findByAccountName(account.getAccountName());
 
 		List<SocialAccount> foundPlatform = repo.findByPlatform(account.getAccountName(), account.getPlatformName());
 
