@@ -11,8 +11,10 @@ import com.cognixia.jump.exception.SameUserAndPlatformException;
 import com.cognixia.jump.model.SocialAccount;
 import com.cognixia.jump.repository.SocialAccountRepository;
 
+
 @Service
 public class SocialAccountService {
+
 
     @Autowired
     SocialAccountRepository repo;
