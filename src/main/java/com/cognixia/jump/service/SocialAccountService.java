@@ -11,6 +11,9 @@ import com.cognixia.jump.exception.SameUserAndPlatformException;
 import com.cognixia.jump.model.SocialAccount;
 import com.cognixia.jump.repository.SocialAccountRepository;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 
 @Service
 public class SocialAccountService {
@@ -23,7 +26,11 @@ public class SocialAccountService {
     public List<SocialAccount> getAccounts() {
         return repo.findAll();
     }
-
+    
+	@ApiResponses(
+			@ApiResponse(responseCode="404",
+					description="Account was not found")
+	)
     public SocialAccount getAccountById(int id) throws ResourceNotFoundException {
     	
     	Optional<SocialAccount> found = repo.findById(id);
@@ -34,7 +41,11 @@ public class SocialAccountService {
     	
         return found.get();
     }
-
+    
+	@ApiResponses(
+			@ApiResponse(responseCode="400",
+					description="Account already exist")
+	)
     public SocialAccount createAccount(SocialAccount account) throws SameUserAndPlatformException {
     	
     	List<SocialAccount> foundAccountName = repo.findByAccountName(account.getAccountName());
@@ -54,7 +65,11 @@ public class SocialAccountService {
 		}
 		
     }
-
+	
+	@ApiResponses(
+			@ApiResponse(responseCode="400",
+					description="Account already exist")
+	)
     public SocialAccount updateAccount(SocialAccount account) 
     		throws ResourceNotFoundException, SameUserAndPlatformException {
     	
@@ -80,7 +95,11 @@ public class SocialAccountService {
 			}	
 		}
     }
-
+	
+	@ApiResponses(
+			@ApiResponse(responseCode="404",
+				description="Account was not found")
+	)
     public boolean deleteAccount(int id) throws ResourceNotFoundException {
 
         boolean exists = repo.existsById(id);

@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
 public class SocialAccount implements Serializable {
 
@@ -27,15 +29,18 @@ public class SocialAccount implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
+	@Schema(description="Social Media platform", example="FACEBOOK", required=true)
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Platform platformName;
-
+	
+	@Schema(description="User's social media account name", example="group2_123", required=true)
 	@Column
 	@NotBlank
 	private String accountName;
-
+	
+	@Schema(description="social media account description", example="description example", required=true)
 	@Column
 	private String description;
 
