@@ -16,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -31,23 +33,28 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
+	@Schema(description="User's username", example="group2", required=true)
 	@Column(unique = true, nullable = false)
 	@NotBlank
 	private String username;
-
+	
+	@Schema(description="User's password", example="pass123", required=true)
 	@Column(nullable = false)
 	@NotBlank
 	private String password;
-
+	
+	@Schema(description="User's company name", example="Cognixia", required=true)
 	@Column(nullable = false)
 	@NotBlank
 	private String companyName;
-
+	
+	@Schema(description="User's role", example="ROLE_USER", required=true)
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Role role;
-
+	
+	@Schema(description="User's bio", example="bio example")
 	@Column
 	private String bio;
 
