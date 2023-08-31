@@ -43,7 +43,9 @@ public class SecurityConfiguration {
 				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 				.antMatchers("/api/user/**").authenticated()
 				.antMatchers("/api/account/**").authenticated()
-
+		        .antMatchers("/v3/api-docs/swagger-config").permitAll()
+		        .antMatchers("/v3/api-docs").permitAll()
+		        .antMatchers("/swagger-ui/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
